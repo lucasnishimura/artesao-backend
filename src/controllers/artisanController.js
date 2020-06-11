@@ -10,7 +10,6 @@ module.exports = {
 
   async store(req, res) {
     const { name, cellphone, telephone, email, products, city, bairro, indicate } = req.body;
-
     let artisan = await Artisan.findOne({ email });
 
     if (!artisan) {

@@ -17,7 +17,6 @@ mongoose.connect('mongodb+srv://lucas:verdao01515@cluster01-eif2j.mongodb.net/te
 })
 
 // app.use(cors({  origin: 'http://localhost:3000' }))
-// app.use(cors({  origin: 'file:///Users/lucasrossinishimura/Documents/artesao-frontend/HTML/index.html' }))
 app.use(cors())
     //Faz compreender que o sistema precisa aceitar JSON na requisi��o
 app.use(express.json());
