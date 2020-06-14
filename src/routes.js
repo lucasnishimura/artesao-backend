@@ -14,5 +14,6 @@ routes.get('/search', searchController.index);
 routes.post('/email', emailController.index);
 routes.get('/region/:city', regionController.index);
 routes.get('/products', searchController.distinctProducts);
+routes.get('/aproveAll', artisanController.aproveAll);
 
 module.exports = routes;

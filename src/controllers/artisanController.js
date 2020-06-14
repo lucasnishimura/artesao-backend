@@ -27,5 +27,10 @@ module.exports = {
     }
 
     return res.json(artisan);
+  },
+
+  async aproveAll(req, res){
+    let artisan = await Artisan.updateMany({"status": "pendente"}, {"$set":{"status": "aprovado"}}, {"multi": true})
+    return res.json({message: 'Registros aprovados'})
   }
 };
