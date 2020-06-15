@@ -9,7 +9,7 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { name, cellphone, telephone, email, products, city, bairro, indicate } = req.body;
+    const { name, cellphone, telephone, email, empresa, site, facebook, instagram, products, city, bairro, indicate } = req.body;
     let artisan = await Artisan.findOne({ email });
 
     if (!artisan) {
@@ -19,6 +19,10 @@ module.exports = {
           cellphone: cellphone,
           telephone: telephone,
           email: email,
+          empresa: empresa,
+          site: site,
+          facebook: facebook,
+          instagram: instagram,
           products: products,
           city: city,
           bairro: bairro,
