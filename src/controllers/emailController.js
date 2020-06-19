@@ -15,7 +15,7 @@ module.exports = {
     
     var mailOptions = {
       from: email,
-      to: 'lucas.nishi@hotmail.com',
+      to: 'contato@portaldosartesaos.com.br',
       subject: 'Email contato Site Artesão',
       html: `
       <b>Nome: </b>${name}<br>
