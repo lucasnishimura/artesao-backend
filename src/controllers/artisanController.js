@@ -10,8 +10,29 @@ module.exports = {
 
   async store(req, res) {
     const { name, cellphone, telephone, email, empresa, site, facebook, instagram, products, city, bairro, indicate } = req.body;
-    let artisan = await Artisan.findOne({ email });
 
+    let url_intagram = await validate(instagram);
+    let url_facebook = await validate(facebook);
+
+    if(!url_intagram){
+      return res.status(400).json({message: `Rede social inválida: ${instagram}`});
+    }
+    
+    if(!url_facebook){
+      return res.status(400).json({message: `Rede social inválida: ${facebook}`});
+    }
+
+    let artisan = await Artisan.findOne({ email });
+    
+    if(artisan){
+      return res.status(400).json({message: 'Usuário já está cadastrado'});
+    }
+    
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gm;
+    if(!regex.exec(email)){
+      return res.status(400).json({message: 'Email inválido'});
+    }
+    
     if (!artisan) {
       artisan = await Artisan.create({
           name: name,
@@ -38,3 +59,11 @@ module.exports = {
     return res.json({message: 'Registros aprovados'})
   }
 };
+
+async function validate(value){
+  let base_url = value.split('/')
+  if(base_url[0] != 'www.facebook.com' && base_url[0] != 'www.instagram.com'){
+    return false;
+  }
+  return true;
+}
