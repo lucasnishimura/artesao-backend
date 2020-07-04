@@ -1,0 +1,59 @@
+{
+  "artisan": [
+    {
+      "indicate": {
+        "name": "lucas",
+        "email": "lucas.nishi@hotmail.com",
+        "telephone": "(11) 1233-5466"
+      },
+      "products": [
+        "roupa",
+        "bolsa",
+        "sapato"
+      ],
+      "_id": "5ecd72c0465cda5681b562ae",
+      "name": "aline silva",
+      "status": "aprovado",
+      "cellphone": "(11) 94789-6156",
+      "telephone": "(11) 2109-1029",
+      "email": "aline.motta@hotmail.com",
+      "city": "Osasco",
+      "bairro": "Jd. Piratininga",
+      "__v": 0
+    },
+    {
+      "products": [
+        "lembrançinha",
+        "almofada",
+        "chaveiro"
+      ],
+      "_id": "5ecd7411f06dd656950d58c0",
+      "name": "marcia",
+      "status": "aprovado",
+      "cellphone": "(11) 92013-4322",
+      "telephone": "(11) 3409-1223",
+      "email": "marcia.motta@hotmail.com",
+      "city": "Osasco",
+      "bairro": "Jd. Bonança",
+      "__v": 0
+    },
+    {
+      "products": [
+        "Moda Afro"
+      ],
+      "_id": "5efb94652235680017505f20",
+      "name": "Valquiria Alves dos Santos",
+      "status": "aprovado",
+      "cellphone": "(11) 97023-1912",
+      "telephone": "",
+      "email": "valquiriamakini@gmail.com",
+      "empresa": "Makini Moda Afro",
+      "site": "www.elo7.com.br/makinimodaafro",
+      "facebook": "www.facebook.com/makinimodaafro",
+      "instagram": "www.instagram.com/makinimodaafro",
+      "city": "osasco",
+      "bairro": "Jd das Flores",
+      "__v": 0
+    }
+  ]
+}

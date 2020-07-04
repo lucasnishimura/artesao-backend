@@ -1,12 +1,21 @@
 const Artisan = require('../models/artisan');
-const parseStringAsArray = require('../utils/parseStringAsArray');
+const { dbConnection } = require('../models/dbConnection');
+const { RegionModel } = require('../models/regionModel');
 
 module.exports = {
   async index(req, res) {
     const { city } = req.params;
+    const cities = [];
 
-    const artisan = await Artisan.distinct('bairro',{city: new RegExp(".*"+city+".*", "i")});
-      
-    return res.json({ artisan })
+    const exem = new dbConnection();
+    const conn = await exem.connection();
+    
+    let getRegion = new RegionModel(conn);
+
+    await getRegion.getBairros(city, async (err, results) => {
+      if(results.length) results.map((e) => cities.push(e.bairro))
+
+      return res.json({"artisan": cities});
+    })
   }
 }

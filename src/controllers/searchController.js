@@ -1,68 +1,69 @@
 const Artisan = require('../models/artisan');
-const parseStringAsArray = require('../utils/parseStringAsArray');
+const { dbConnection } = require('../models/dbConnection');
+const { SearchModel } = require('../models/searchModel');
+// var Promise = require('es6-promise').Promise;
 
 module.exports = {
   async index(req, res) {
     const { cidade, bairro, product } = req.query;
+    const artisans = [];
 
-    let params = {}
-
-    if(cidade){
-      params.city = new RegExp(".*"+cidade+".*", "i")
-    }
+    const exem = new dbConnection();
+    const conn = await exem.connection();
     
-    if(bairro){
-      params.bairro = new RegExp(".*"+bairro+".*", "i")
-    }      
-
-    let condition = {
-      "status": "aprovado",
+    let getProducts = new SearchModel(conn);
+     
+    //alternativa 2
+    function getDbArtisans(callback) {
+      getProducts.getArtisans(cidade, bairro, product, function (err, result) {
+        if(err || !result.length) return callback('error or no results');
+        callback(null, result);
+      });
     }
 
-    if(product){
-      condition.products = {
-        $in: new RegExp(".*"+product+".*", "i")
-      }
+    function getProductArtisans(value,callback2) { 
+      getProducts.getProductById(value.id, (erro, resultado) => {
+        resultado = resultado.map(obj => obj.name);
+        callback2(null,resultado)
+      });
     }
 
-    const artisan = await Artisan.find({
-      $or: [params],
-      $and: [condition]
+    function getMap(resultado,callback3){
+      resultado.map(async (value, key) => {
+        getProductArtisans(value, function(erro, produtos){
+          value.products = produtos;
+          artisans.push(value)
+          if(key == resultado.length - 1) callback3(artisans)        
+        })
+      })
+    
+    }
+    getDbArtisans(async function(err, resultado){
+      getMap(resultado,function(artisans){
+        // console.log(artisans)
+        return res.json({ artisans })
+      });   
     });
-  
-    return res.json({ artisan })
   },
 
   async distinctProducts(req, res){
     const { cidade, bairro } = req.query;
 
-    let params = {}
-
-    if(cidade){
-      params.city = new RegExp(".*"+cidade+".*", "i")
-    }
+    const exem = new dbConnection();
+    const conn = await exem.connection();
     
-    if(bairro){
-      params.bairro = new RegExp(".*"+bairro+".*", "i")
-    }      
+    let getProducts = new SearchModel(conn);
 
-    const artisan = await Artisan.find({
-      $or: [params],
-      $and: [{
-        "status": "aprovado"
-      }]
-    });
+    await getProducts.getProducts(cidade, bairro, async (err, results) => {
+      let products = [];
 
-    let products = [];
-
-    artisan.map((e) => {
-      e.products.map((product) => {
-        if(!products.includes(product)){
-          products.push(product)
+      results.map((e) => {
+        if(!products.includes(e.name)){
+          products.push(e.name)
         }
       })
-    })
 
-    return res.json({ products })
+      return res.json({ products })
+    })
   }
 }
