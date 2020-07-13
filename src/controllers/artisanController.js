@@ -26,11 +26,12 @@ module.exports = {
       return res.status(400).json({message: `Rede social inválida: ${facebook}`});
     }
 
-    // let artisan = await Artisan.findOne({ email });
     
-    // if(artisan){
-    //   return res.status(400).json({message: 'Usuário já está cadastrado'});
-    // }
+    const artisan = await ArtisanModel.findOne({ where: { email: email} });
+    
+    if(artisan){
+      return res.status(400).json({message: 'Usuário já está cadastrado'});
+    }
     
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gm;
     if(!regex.exec(email)){
@@ -93,7 +94,7 @@ module.exports = {
 
 async function validate(value){
   let base_url = value.split('/')
-  if(base_url[0] != 'www.facebook.com' && base_url[0] != 'www.instagram.com'){
+  if(base_url[0] != 'www.facebook.com' && base_url[0] != 'www.instagram.com' &&  base_url[0] != 'instagram.com' &&  base_url[0] != 'facebook.com'){
     return false;
   }
   return true;
