@@ -15,6 +15,28 @@ module.exports = {
     
     if(!products || products.length == 0) return res.status(400).json({message: 'Insira os produtos'});    
 
+    let url_intagram = await validate(instagram);
+    let url_facebook = await validate(facebook);
+
+    if(!url_intagram){
+      return res.status(400).json({message: `Rede social inválida: ${instagram}`});
+    }
+    
+    if(!url_facebook){
+      return res.status(400).json({message: `Rede social inválida: ${facebook}`});
+    }
+
+    // let artisan = await Artisan.findOne({ email });
+    
+    // if(artisan){
+    //   return res.status(400).json({message: 'Usuário já está cadastrado'});
+    // }
+    
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gm;
+    if(!regex.exec(email)){
+      return res.status(400).json({message: 'Email inválido'});
+    }
+    
     var dados_form = {
       "name": name,
       "cellphone": cellphone,
@@ -68,3 +90,11 @@ module.exports = {
       })
   }
 };
+
+async function validate(value){
+  let base_url = value.split('/')
+  if(base_url[0] != 'www.facebook.com' && base_url[0] != 'www.instagram.com'){
+    return false;
+  }
+  return true;
+}
