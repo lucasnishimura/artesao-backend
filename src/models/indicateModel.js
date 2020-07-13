@@ -1,11 +1,10 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const ProductModel = require('../models/productModel');
 const sequelize = new Sequelize('hinen518_artesaos', 'hinen518_lucas', 'u6CBEDRO18K_', {
   host: 'ns166.hostgator.com.br',
   dialect: 'mysql'
 });
 
-const Artisan = sequelize.define('Artisan', {
+const Indicate = sequelize.define('Indicate', {
   id: {
     type: DataTypes.INTEGER, 
     primaryKey: true,
@@ -22,30 +21,16 @@ const Artisan = sequelize.define('Artisan', {
     type: DataTypes.STRING(15)
   },
   email: {
-    type: DataTypes.STRING(50),
-    unique: true
-  },
-  empresa: {
-    type: DataTypes.STRING
-  },
-  site: {
     type: DataTypes.STRING(50)
   },
-  facebook: {
-    type: DataTypes.STRING(35)
-  },
-  instagram: {
-    type: DataTypes.STRING(35)
-  },
-  city: {
-    type: DataTypes.STRING(50)
-  },
-  bairro: {
-    type: DataTypes.STRING(50)
-  },
-  status: {
-    type: DataTypes.STRING(9)
-  },
+  artisan_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Artisans',
+      key: 'id'
+    }
+  }
 });
 
-module.exports = Artisan;
+module.exports = Indicate;

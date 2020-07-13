@@ -1,17 +1,19 @@
 //acesso ao drive de 
 var mysql = require('mysql');
+const { Sequelize } = require('sequelize');
 
-exports.dbConnection = class dbConnection {
+module.exports = async function connect() {
+  const con = new Sequelize('hinen518_artesaos', 'hinen518_lucas', 'u6CBEDRO18K_', {
+    host: 'ns166.hostgator.com.br',
+    dialect: 'mysql'
+  });
 
-  async connection() {
-    var con = mysql.createConnection({
-      host: 'ns166.hostgator.com.br',
-      user: 'hinen518_lucas',
-      password: 'u6CBEDRO18K_', 
-      database: 'hinen518_artesaos'
-    });
-
-    return con;
+  try {
+    await con.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
   }
 
+  return con;
 }

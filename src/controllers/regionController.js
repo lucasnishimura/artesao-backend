@@ -1,21 +1,24 @@
-const Artisan = require('../models/artisan');
-const { dbConnection } = require('../models/dbConnection');
-const { RegionModel } = require('../models/regionModel');
+const ArtisanModel = require('../models/artisanModel');
+const { Op } = require('sequelize');
 
 module.exports = {
   async index(req, res) {
     const { city } = req.params;
     const cities = [];
 
-    const exem = new dbConnection();
-    const conn = await exem.connection();
-    
-    let getRegion = new RegionModel(conn);
+    const citiesQuery = await ArtisanModel.findAll({
+      attributes: ['bairro'],
+      where: {
+        city: {
+          [Op.like]: `%${city}%`
+        }
+      }
+    });
 
-    await getRegion.getBairros(city, async (err, results) => {
-      if(results.length) results.map((e) => cities.push(e.bairro))
-
-      return res.json({"artisan": cities});
+    citiesQuery.map((e) => {
+      cities.push(e.bairro)
     })
+
+    return res.json({"artisan": cities})
   }
 }

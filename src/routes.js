@@ -4,16 +4,15 @@ const artisanController = require('./controllers/artisanController');
 const searchController = require('./controllers/searchController');
 const emailController = require('./controllers/emailController');
 const regionController = require('./controllers/regionController');
-const productsController = require('./controllers/productsController');
 
 const routes = Router();
 
-routes.get('/artisan', artisanController.index); //ok
-routes.post('/artisan', artisanController.store); //ok
+routes.get('/artisan', artisanController.index);
+routes.post('/artisan', artisanController.store);
 routes.get('/search', searchController.index); 
-routes.post('/email', emailController.index); //ok
-routes.get('/region/:city', regionController.index); //ok
-routes.get('/products', searchController.distinctProducts); //ok
-routes.get('/aproveAll', artisanController.aproveAll); //ok
+routes.post('/email', emailController.index);
+routes.get('/region/:city', regionController.index);
+routes.get('/products', searchController.distinctProducts);
+routes.get('/aproveAll', artisanController.aproveAll);
 
 module.exports = routes;
