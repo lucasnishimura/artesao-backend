@@ -28,7 +28,6 @@ module.exports = {
 
     
     const artisan = await ArtisanModel.findOne({ where: { email: email} });
-    
     if(artisan){
       return res.status(400).json({message: 'Usuário já está cadastrado'});
     }
@@ -51,7 +50,7 @@ module.exports = {
       "bairro": bairro,
       "status": "pendente"
     };
-
+    
     const registerUser = await ArtisanModel.create(dados_form)
       .catch((error) => {
         if(error.original.code == 'ER_DUP_ENTRY') return res.status(409).json({message: 'usuario já existente'});    
@@ -94,8 +93,16 @@ module.exports = {
 
 async function validate(value){
   let base_url = value.split('/')
-  if(base_url[0] != 'www.facebook.com' && base_url[0] != 'www.instagram.com' &&  base_url[0] != 'instagram.com' &&  base_url[0] != 'facebook.com'){
-    return false;
+  console.log(base_url[0])
+  if(base_url[0] == 'https:' || base_url[0] == 'http:'){
+    if(base_url[2] != 'www.facebook.com' && base_url[2] != 'www.instagram.com' &&  base_url[2] != 'instagram.com' &&  base_url[2] != 'facebook.com'){
+      return false;
+    }
+  }else{
+    if(base_url[0] != 'www.facebook.com' && base_url[0] != 'www.instagram.com' &&  base_url[0] != 'instagram.com' &&  base_url[0] != 'facebook.com'){
+      return false;
+    }
   }
+
   return true;
 }
