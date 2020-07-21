@@ -54,10 +54,11 @@ module.exports = {
     const registerUser = await ArtisanModel.create(dados_form)
       .catch((error) => {
         if(error.original.code == 'ER_DUP_ENTRY') return res.status(409).json({message: 'usuario já existente'});    
+        if(error) return res.status(500).json(error);    
       })
       
       
-      if(indicate != undefined){
+      if(indicate != undefined && registerUser != undefined){
         indicate.artisan_id = registerUser.id;
         const registerIndicate = await IndicateModel.create(indicate)
         .catch((error) => {
